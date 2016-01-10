@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^displaymeta','blog.views.display_meta'),
     url(r'^search-form/$','blog.views.search_form'),
     url(r'^register/$','blog.views.register'),
+    url(r'^disk/$','disk.views.register'),
     )
 
 

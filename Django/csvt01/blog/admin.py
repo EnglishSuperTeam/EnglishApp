@@ -1,5 +1,6 @@
 from django.contrib import admin
 from blog.models import Publisher,Author,Book
+from disk.views import UserForm
 # Register your models here.
 
 class AuthorAdmin(admin.ModelAdmin):
@@ -14,6 +15,10 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('-publication_date',)
     filter_horizontal = ('authors',)
     raw_id_fields = ('publisher',)
+
+
+class UserFormAdmin(admin.ModelAdmin):
+    list_display =('username','headImg')
 
 
 admin.site.register(Publisher)
