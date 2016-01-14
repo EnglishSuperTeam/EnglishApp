@@ -3,7 +3,7 @@
 from django.shortcuts import render,HttpResponse,render_to_response,HttpResponsePermanentRedirect
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-from gushi.models import User
+from gushi.models import User,AudioInfo
 # Create your views here.
 
 def play(request):
@@ -13,8 +13,6 @@ def play(request):
 class UserForm(forms.Form):
     name = forms.CharField(label='用户名',max_length=100)
     password = forms.CharField(label='密码',max_length=20)
-
-
 
 def register(request):
     if request.method=='POST':
@@ -43,8 +41,8 @@ def login(request):
                 user=User.objects.filter(name=name,password=password)
                 # if user.exists():
 
-
-                return render_to_response('successLogin.html',{'name':name})
+                lists=AudioInfo.objects.all()
+                return render_to_response('show.html',{'lists':lists})
             except ObjectDoesNotExist:
                 return HttpResponsePermanentRedirect('/login/')
 
@@ -52,7 +50,6 @@ def login(request):
         uf=UserForm()
         return render_to_response('login.html',{'uf':uf})
 
-
-
-
-
+def show(request):
+    lists=AudioInfo.objects.all()
+    return render_to_response('show.html',{'lists':lists})
