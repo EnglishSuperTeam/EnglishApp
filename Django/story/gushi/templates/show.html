@@ -11,6 +11,10 @@
 <ul>
     {% for list in lists %}
         <a href="http://127.0.0.1:8000/play/"><li>{{ list.title }}</li></a>
+        <form method="post" enctype="multipart/form-data">
+
+        <input type="submit" value="提交"/>
+        </form>
     {% endfor %}
 </ul>
 </p>

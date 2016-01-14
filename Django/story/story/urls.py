@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^register/$','gushi.views.register'),
     url(r'^login/$','gushi.views.login'),
     url(r'^show/$','gushi.views.show'),
+    url(r'^test/$','gushi.views.test'),
+    url(r'^play1/$','gushi.views.play1'),
 ]

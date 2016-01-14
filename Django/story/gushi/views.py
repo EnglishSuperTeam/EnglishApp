@@ -7,12 +7,20 @@ from gushi.models import User,AudioInfo
 # Create your views here.
 
 def play(request):
+    list=AudioInfo.objects.filter(id=1)
 
-    return HttpResponse('play.html')
+    return render_to_response('play.html',{'list':list})
 
 class UserForm(forms.Form):
     name = forms.CharField(label='用户名',max_length=100)
     password = forms.CharField(label='密码',max_length=20)
+#
+# class AudioInfoForm(forms.Form):
+#     title = forms.CharField(max_length=100)
+#     date = forms.CharField(max_length=100)
+#     content = forms.TextField()
+#     mp3_path = forms.TextField()
+#     pic_path = forms.TextField()
 
 def register(request):
     if request.method=='POST':
@@ -51,5 +59,21 @@ def login(request):
         return render_to_response('login.html',{'uf':uf})
 
 def show(request):
-    lists=AudioInfo.objects.all()
-    return render_to_response('show.html',{'lists':lists})
+    if request.method=='POST':
+        check_box=request.POST.getlist('check_box')
+        print len(check_box)
+        audio=AudioInfo.objects.get(id=check_box[0])
+        audio_data=open(audio.mp3_path,'rb').read()
+        return HttpResponse(audio_data,'audio.mp3_path')
+
+    else:
+        lists=AudioInfo.objects.all()
+        return render_to_response('show.html',{'lists':lists})
+
+def test(request):
+    return render_to_response('test.html')
+
+def play1(request):
+    list=AudioInfo.objects.filter(id=0)
+    audio_data=open(list.mp3_path,'rb').read()
+    return HttpResponse(audio_data,content_type='0.mp3')

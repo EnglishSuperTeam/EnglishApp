@@ -168,9 +168,9 @@ function dragMove() {
 <h1>html5 audio 音频播放demo</h1>
  
 <!--audiostart-->
-<audio id="audio" src=""  loop="loop" autoplay="autoplay" ></audio>
+<audio id="audio" src={{ list.mp3_path }}  loop="loop" autoplay="autoplay" ></audio>
 <!--audio End-->
- 
+ <li>{{ list.mp3_path }}</li>
  
  
 <!--播放控制按钮start-->
@@ -189,7 +189,7 @@ function dragMove() {
 <div id="time"><div class="tiemDetail"><span class="currentTime" id="currentTime">00:00</span>/<span class="allTime" id="allTime">00:00</span></div></div>
 <!--播放时间end-->
 <!--歌曲信息start-->
-<div id="songInfo">没时间-Leinov<div class="shareImg"><img src="img/html5audio.jpg" alt=""></div></div>
+<div id="songInfo">{{ list.title }}<div class="shareImg"><img src="img/html5audio.jpg" alt=""></div></div>
 <!--歌曲信息end-->
 <script src="js/zepto.js"></script>
 </body>
