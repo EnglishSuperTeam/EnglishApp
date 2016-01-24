@@ -97,13 +97,16 @@ def getAudio(request):
 
             s=dict['audioPartEndTime'].split('##')
             print 1,s
+            for i in range(len(s)):
+                ss=s[i]
+                s[i]=int(float(ss))
             dict['audioPartEndTime']=s
             print 2,dict['audioPartEndTime']
-            s1=changeToList(dict['audioTextBlankIndex'])
+            s1=changeToIntList(dict['audioTextBlankIndex'])
             print 3,s1
             dict['audioTextBlankIndex']=s1
             print 4,dict['audioTextBlankIndex']
-            s2=changeToList(dict['audioStandardAnswer'])
+            s2=changeToStringList(dict['audioStandardAnswer'])
             print 5,s2
             dict['audioStandardAnswer']=s2
             print 6,dict['audioStandardAnswer']
@@ -137,7 +140,7 @@ def showLists(request):
         user=User.objects.get_or_create(userId=data['userId'],userWrongWords="",userCorrectRate=0)
 
 
-        audios=Audio.objects.all()[:20]
+        audios=Audio.objects.order_by('?')[:20]
         audio_list=[]
         for audio in audios:
             dict={'audioId':audio.audioId,'audioTitle':audio.audioTitle,
@@ -173,28 +176,36 @@ def audioCorrectRate(userAnswer,ID):
     audio=Audio.objects.get(audioId=ID)
 
     standardAnswer=audio.audioStandardAnswer
-    s_list=standardAnswer.split('$$')[0:3]
-    for i in range(s_list.__len__()):
-        s=s_list[i].split('##')
-        s1=s[0:s.__len__()-1]
-        s_list[i]=s1
-    u_list=userAnswer.spilt('##')
-    for i in range(s_list[0].__len__()):
-        count=0
-        if s_list[0][i]==u_list[i]:
-            count+=1
-    rate=i*1.0/s_list[0].__len__()
+    s_list=re.sub("$$","",standardAnswer)
+    s=s_list.split("##")
+    s_list=s[0:s.__len__()-1]
 
-    # s_list=standardAnswer.split('##')
-    # s_list=s_list[0:s_list.__len__()-1]
+    u_list=userAnswer.split("##")
+
+    count=0
+    for i in range(len(s_list)):
+        if s_list[i]==u_list[i]:
+            count+=1
+    rate=count*1.0/len(s_list)
+
 
     return rate
 
-def changeToList(s):
+def changeToStringList(s):
     s_list=s.split('$$')[0:3]
     for i in range(s_list.__len__()):
         s=s_list[i].split('##')
         s1=s[0:s.__len__()-1]
+        s_list[i]=s1
+    return s_list
+
+def changeToIntList(s):
+    s_list=s.split('$$')[0:3]
+    for i in range(s_list.__len__()):
+        s=s_list[i].split('##')
+        s1=s[0:s.__len__()-1]
+        for j in range(len(s1)):
+            s1[j]=int(s1[j])
         s_list[i]=s1
     return s_list
 
